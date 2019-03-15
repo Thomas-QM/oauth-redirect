@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OAuth</title>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+    
+        const error = urlParams.get('error');
+        const code = urlParams.get('code');
+        const state = urlParams.get('state');
+
+        document.addEventListener("DOMContentLoaded", (ev) => {
+            const stateElem = document.querySelector(".state");
+            
+            if (error) {
+                stateElem.innerHTML = `<h2>Error authenticating</h2> <p class="error" >${error}</p>`;
+            } else {
+                if (code) stateElem.innerHTML = `<h2>Code</h2><p>Main code (copy this): <input value=${code} readonly /></p>`;
+                if (state) stateElem.innerHTML += `<h2>State</h2><p>Extra security code: <input value=${code} readonly /></p>`;
+                
+                if (!code && !state) stateElem.innerHTML = `<h2>No data provided.</h2> <p>What sent you here? Try linking this up as an OAuth redirect.</p>`;
+            }
+        });
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        html, body {
+            height: 100%;
+            margin: 0; padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            font-family: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 5px;
+        }
+
+        .state {
+            width: 50%;
+
+            display: flex;
+            flex-direction: column;
+            
+            justify-content: space-around;
+        }
+
+        .error {
+            color: red;
+        }
+
+        input {
+            border-radius: 5px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="state" >Loading...</div>
+</body>
+</html>
